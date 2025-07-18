@@ -1,0 +1,78 @@
+ CREATE DATABASE KMS_PROJECT 
+
+USE KMS_PROJECT 
+SELECT * FROM [dbo].[kMS SQL CASE STUDY_2]
+
+---Q1---Which product category had the highest sales?
+
+SELECT Product_Category, Sales FROM [dbo].[kMS SQL CASE STUDY_2] where Sales=(Select Max(Sales)FROM [dbo].[kMS SQL CASE STUDY_2])
+
+---Q2---What are the Top 3 and Bottom 3 regions in terms of sales?
+
+SELECT DISTINCT REGION FROM [dbo].[kMS SQL CASE STUDY_2]
+SELECT TOP 3 REGION, SUM(Sales) AS TOTALSales FROM [dbo].[kMS SQL CASE STUDY_2]
+GROUP BY REGION
+ORDER BY TOTALSales DESC
+SELECT TOP 3 REGION, SUM(Sales) AS TOTALSales FROM [dbo].[kMS SQL CASE STUDY_2]
+GROUP BY REGION 
+ORDER BY TOTALSales ASC
+
+---Q3---What were the total sales of appliances in Ontario?
+
+SELECT SUM(Sales) AS TOTALSales FROM [dbo].[kMS SQL CASE STUDY_2]
+WHERE Region='Ontario'
+
+---Q4---Advise the management of KMS on what to do to increase the revenue from the bottom 10 customers
+
+SELECT TOP 10 * FROM [dbo].[kMS SQL CASE STUDY_2]
+ORDER BY Profit DESC
+----INCREASE DISCOUNT AND REDUCE SHIPPING COST 
+
+---Q5---KMS incurred the most shipping cost using which shipping method?
+
+SELECT Shipping_Cost, Ship_Mode FROM [dbo].[kMS SQL CASE STUDY_2]
+WHERE Shipping_Cost = (SELECT MAX(Shipping_Cost) AS MAXShipping_Cost FROM [dbo].[kMS SQL CASE STUDY_2])
+
+---6--- Who are the most valuable customers, and what products or services do they typically purchase?
+
+SELECT TOP 5 Profit, Sales, Product_Name, Customer_Name FROM [dbo].[kMS SQL CASE STUDY_2]
+ORDER BY Profit DESC
+
+---Q7---Which small business customer had the highest sales?
+
+SELECT TOP 1 Customer_Name, SUM(Sales) AS TOTAL_Sales FROM [dbo].[kMS SQL CASE STUDY_2]
+WHERE Customer_Segment= 'Small  Business'
+GROUP BY Customer_Name
+ORDER BY Total_Sales DESC
+
+---Q8---Which Corporate Customer placed the most number of orders in 2009 – 2012?
+
+SELECT * FROM [dbo].[kMS SQL CASE STUDY_2]
+SELECT TOP 1 Customer_Name, COUNT(Order_ID) AS Order_Count FROM [dbo].[kMS SQL CASE STUDY_2]
+WHERE Customer_Segment= 'Corporate'
+GROUP BY Customer_Name
+ORDER BY Order_Count DESC
+
+--Q9---Which consumer customer was the most profitable one?
+
+SELECT TOP 1 Customer_Name, SUM(Profit) AS Total_Profit FROM [dbo].[kMS SQL CASE STUDY_2]
+WHERE Customer_Segment='Consumer'
+GROUP BY Customer_Name
+ORDER BY Total_Profit DESC
+
+---Q10--- which top 10 customers returned items, and what segment do they belong to?
+SELECT * FROM [dbo].[kMS SQL CASE STUDY_2]
+SELECT * FROM [dbo].[Order_Status2]
+ALTER TABLE [dbo].[Order_Status2] rename Column [Status] to Header; 
+SELECT TOP 10 K.Customer_Name, o.[Status], K.Customer_Segment FROM [dbo].[kMS SQL CASE STUDY_2] K
+JOIN 
+Order_Status2 o ON o.Order_ID= K.Order_ID
+
+---Q11---If the delivery truck is the most economical but the slowest shipping method and 
+--Express Air is the fastest but the most expensive one, do you think the company 
+--appropriately spent shipping costs based on the Order Priority? Explain our answer 
+SELECT Ship_Mode, Order_Priority, Shipping_Cost, Order_Date, Ship_Date From [dbo].[kMS SQL CASE STUDY_2] Order by Shipping_Cost DESC
+
+ADDED SQL_CAPTION_PROJECT_DSA_FINAL_WORK 
+
+
